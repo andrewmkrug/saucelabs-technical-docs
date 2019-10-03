@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Parallel Testing | Sauce Labs Technical Docs</title>
+    <meta name="description" content="Code Snippets for Sauce Labs">
+    
+    
+    <link rel="preload" href="/assets/css/styles.aa725d9b.css" as="style"><link rel="preload" href="/assets/js/app.aa725d9b.js" as="script"><link rel="preload" href="/assets/js/9.4500cc1c.js" as="script"><link rel="prefetch" href="/assets/css/1.styles.29e4421f.css"><link rel="prefetch" href="/assets/css/3.styles.feab4137.css"><link rel="prefetch" href="/assets/js/1.29e4421f.js"><link rel="prefetch" href="/assets/js/2.ca54ed0b.js"><link rel="prefetch" href="/assets/js/3.feab4137.js"><link rel="prefetch" href="/assets/js/4.a7fe62b3.js"><link rel="prefetch" href="/assets/js/5.193d2aea.js"><link rel="prefetch" href="/assets/js/6.c26553b2.js"><link rel="prefetch" href="/assets/js/7.7d9bd229.js"><link rel="prefetch" href="/assets/js/8.096aebbc.js">
+    <link rel="stylesheet" href="/assets/css/styles.aa725d9b.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><!----> <span class="site-name">Sauce Labs Technical Docs</span></a> <div class="links" style="max-width:nullpx;"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/" class="nav-link">Home</a></div><div class="nav-item"><a href="/about/" class="nav-link">About</a></div><div class="nav-item"><a href="/contact/" class="nav-link">Contact</a></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <div class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/" class="nav-link">Home</a></div><div class="nav-item"><a href="/about/" class="nav-link">About</a></div><div class="nav-item"><a href="/contact/" class="nav-link">Contact</a></div> <!----></nav>  <ul class="sidebar-links"><li><a href="/" class="sidebar-link">Home</a></li><li><a href="/about/" class="sidebar-link">About</a></li><li><a href="/contact/" class="sidebar-link">Contact</a></li><li><a href="/parallel/" class="active sidebar-link">Parallel Testing</a></li></ul> </div> <div class="page"><!---->  <div class="content"><h1>Parallel Testing</h1> <p>In these examples is the code needed to do setup your tests in parallel for Selenium.</p> <p>The only issue with this setup is that we will need multiple code blocks for the test frameworks.</p> <div class="code-toggle"><ul class="code-language-switcher"><li><a class="active">C#</a></li><li><a>Java</a></li></ul> <div><div class="language-csharp extra-class"><pre class="language-csharp"><code>﻿<span class="token keyword">using</span> System<span class="token punctuation">.</span>Threading<span class="token punctuation">;</span>
+<span class="token keyword">using</span> Common<span class="token punctuation">;</span>
+<span class="token keyword">using</span> NUnit<span class="token punctuation">.</span>Framework<span class="token punctuation">;</span>
+<span class="token keyword">using</span> NUnit<span class="token punctuation">.</span>Framework<span class="token punctuation">.</span>Interfaces<span class="token punctuation">;</span>
+<span class="token keyword">using</span> OpenQA<span class="token punctuation">.</span>Selenium<span class="token punctuation">;</span>
+
+
+<span class="token keyword">namespace</span> ParallelTestMethods
+<span class="token punctuation">{</span>
+    <span class="token punctuation">[</span><span class="token class-name">TestFixture</span><span class="token punctuation">]</span>
+    <span class="token punctuation">[</span><span class="token class-name">Category</span><span class="token punctuation">(</span><span class="token string">&quot;Parallel Selenium tests&quot;</span><span class="token punctuation">)</span><span class="token punctuation">]</span>
+    <span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">ParallelTestsAtMethodLevelWithSelenium</span>
+    <span class="token punctuation">{</span>
+        <span class="token punctuation">[</span><span class="token class-name">SetUp</span><span class="token punctuation">]</span>
+        <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">Setup</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            Driver <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">WebDriverFactory</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">CreateSauceDriver</span><span class="token punctuation">(</span>TestContext<span class="token punctuation">.</span>CurrentContext<span class="token punctuation">.</span>Test<span class="token punctuation">.</span>Name<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token punctuation">[</span><span class="token class-name">TearDown</span><span class="token punctuation">]</span>
+        <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">TearDown</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            <span class="token keyword">var</span> passed <span class="token operator">=</span> TestContext<span class="token punctuation">.</span>CurrentContext<span class="token punctuation">.</span>Result<span class="token punctuation">.</span>Outcome<span class="token punctuation">.</span>Status <span class="token operator">==</span> TestStatus<span class="token punctuation">.</span>Passed<span class="token punctuation">;</span>
+            <span class="token punctuation">(</span><span class="token punctuation">(</span>IJavaScriptExecutor<span class="token punctuation">)</span>Driver<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">ExecuteScript</span><span class="token punctuation">(</span><span class="token string">&quot;sauce:job-result=&quot;</span> <span class="token operator">+</span> <span class="token punctuation">(</span>passed <span class="token punctuation">?</span> <span class="token string">&quot;passed&quot;</span> <span class="token punctuation">:</span> <span class="token string">&quot;failed&quot;</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            Driver<span class="token punctuation">?.</span><span class="token function">Quit</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">public</span> <span class="token class-name">IWebDriver</span> Driver <span class="token punctuation">{</span> <span class="token keyword">get</span><span class="token punctuation">;</span> <span class="token keyword">set</span><span class="token punctuation">;</span> <span class="token punctuation">}</span>
+
+        <span class="token comment">//This will default to the number of processors that a laptop has and will run that many threads at the same time</span>
+        <span class="token punctuation">[</span><span class="token class-name">Test</span><span class="token punctuation">]</span>
+        <span class="token punctuation">[</span><span class="token class-name">Parallelizable</span><span class="token punctuation">]</span>
+        <span class="token punctuation">[</span><span class="token class-name">Ignore</span><span class="token punctuation">(</span><span class="token string">&quot;don't need&quot;</span><span class="token punctuation">)</span><span class="token punctuation">]</span>
+        <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">SeleniumTest1</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            <span class="token function">PerformTestSteps</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token keyword">private</span> <span class="token keyword">void</span> <span class="token function">PerformTestSteps</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            Driver<span class="token punctuation">.</span><span class="token function">Navigate</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">GoToUrl</span><span class="token punctuation">(</span><span class="token string">&quot;https://www.google.com&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            Thread<span class="token punctuation">.</span><span class="token function">Sleep</span><span class="token punctuation">(</span><span class="token number">10000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            Assert<span class="token punctuation">.</span><span class="token function">Pass</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token punctuation">[</span><span class="token class-name">Test</span><span class="token punctuation">]</span>
+        <span class="token punctuation">[</span><span class="token class-name">Parallelizable</span><span class="token punctuation">]</span>
+        <span class="token punctuation">[</span><span class="token class-name">Ignore</span><span class="token punctuation">(</span><span class="token string">&quot;don't need&quot;</span><span class="token punctuation">)</span><span class="token punctuation">]</span>
+        <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">SeleniumTest2</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            <span class="token function">PerformTestSteps</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token punctuation">}</span>
+        <span class="token punctuation">[</span><span class="token class-name">Test</span><span class="token punctuation">]</span>
+        <span class="token punctuation">[</span><span class="token class-name">Parallelizable</span><span class="token punctuation">]</span>
+        <span class="token punctuation">[</span><span class="token class-name">Ignore</span><span class="token punctuation">(</span><span class="token string">&quot;don't need&quot;</span><span class="token punctuation">)</span><span class="token punctuation">]</span>
+
+        <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">SeleniumTest3</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            <span class="token function">PerformTestSteps</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token punctuation">}</span>
+        <span class="token punctuation">[</span><span class="token class-name">Test</span><span class="token punctuation">]</span>
+        <span class="token punctuation">[</span><span class="token class-name">Parallelizable</span><span class="token punctuation">]</span>
+        <span class="token punctuation">[</span><span class="token class-name">Ignore</span><span class="token punctuation">(</span><span class="token string">&quot;don't need&quot;</span><span class="token punctuation">)</span><span class="token punctuation">]</span>
+
+        <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">SeleniumTest4</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            <span class="token function">PerformTestSteps</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div></div><div><!----></div></div></div> <div class="page-edit"><!----> <!----></div> <div class="page-nav"><p class="inner"><span class="prev">
+        ←
+        <a href="/contact/" class="prev">
+          Contact
+        </a></span> <!----></p></div> </div> <!----></div></div>
+    <script src="/assets/js/app.aa725d9b.js" defer></script><script src="/assets/js/9.4500cc1c.js" defer></script>
+  </body>
+</html>
